@@ -5,7 +5,7 @@ export default [{
     path: '/home',
     redirect: '/home/dataOverview',
     component: Home,
-    meta: { name: '首页', isTopbar: true, type: 'home' }
+    meta: { name: '首页', isParent: true, type: 'home' }
   }, {
     name: 'homeDataOverview',
     path: '/home/dataOverview',

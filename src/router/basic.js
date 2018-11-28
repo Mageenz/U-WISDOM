@@ -9,7 +9,7 @@ import ShareSetting from '../pages/basic/ShareSetting.vue'
 import ScoreRewardSetting from '../pages/basic/ScoreRewardSetting.vue'
 
 export default [
-  {name: 'basic', path: '/basic', redirect: '/basic/cityOverview', component: CityOverview,meta: { name: '基础设置', isTopbar: true, type: 'basic' }},
+  {name: 'basic', path: '/basic', redirect: '/basic/cityOverview', component: CityOverview,meta: { name: '基础设置', isParent: true, type: 'basic' }},
   {name: 'basicCityOverview', path: '/basic/cityOverview', component: CityOverview, meta: { name: '城市概览', type: 'basic' }}, 
   {name: 'basicVipManager', path: '/basic/vipManager', component: VipManager, meta: { name: '会员管理', type: 'basic' }},
   {name: 'basicShopManager', path: '/basic/shopManager', component: ShopManager, meta: { name: '商家管理', type: 'basic' }},

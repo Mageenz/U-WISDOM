@@ -4,23 +4,32 @@
       .topbar.flex
         span.logo U+智慧管理后台
         .menus.flex-1.flex
-          router-link.menu(v-for='(item, index) in topbar' :key='index' :to='item.path') {{item.meta.name}}
+          router-link.menu(v-for='(item, index) in routes' :key='index' :to='item.path') {{item.meta.name}}
     .main-body.flex.flex-1
-      router-view(name='sidebar')
+      sidebar
       .content.flex-1
         .container
-          router-view(name='content')
+          router-view
     .main-foot
 </template>
 
 <script>
-import {topbar} from '../router/router'
+import {routes} from '../../router/router'
+import Sidebar from '../../components/Sidebar.vue'
 
 export default {
   data() {
     return {
-      topbar
+      
     }
+  },
+  computed: {
+    routes() {
+      return routes.filter(item => item.meta.isParent)
+    }
+  },
+  components: {
+    Sidebar
   }
 }
 </script>

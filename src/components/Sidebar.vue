@@ -20,7 +20,7 @@ export default {
       const currentType = this.$route.meta.type
 
       return routes.filter(item => {
-        return item.meta.type === currentType && !item.meta.isTopbar
+        return item.meta.type === currentType && !item.meta.isParent
       })
     }
   }

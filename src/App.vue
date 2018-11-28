@@ -18,10 +18,10 @@ body {
   overflow: hidden;
 }
 h2 {
-  font-size: 16px;
+  font-size: 15px;
   margin-bottom: 25px;
   color: #303133;
-  font-weight: normal;
+  font-weight: bold;
 }
 .c3 {
   color: @c3;

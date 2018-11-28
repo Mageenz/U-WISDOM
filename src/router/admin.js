@@ -9,7 +9,7 @@ import CityProxyApply from '../pages/admin/CityProxyApply.vue'
 import UshopImportLogs from '../pages/admin/UshopImportLogs.vue'
 
 export default [
-  {name: 'admin', path: '/admin', redirect: '/admin/regionProxyOverview', component: RegionProxyOverview,meta: { name: '后台管理', isTopbar: true, type: 'admin' }},
+  {name: 'admin', path: '/admin', redirect: '/admin/regionProxyOverview', component: RegionProxyOverview,meta: { name: '后台管理', isParent: true, type: 'admin' }},
   {name: 'adminRegionProxyOverview', path: '/admin/regionProxyOverview', component: RegionProxyOverview, meta: { name: '区县代理概况', type: 'admin' }}, 
   {name: 'adminCityProxyOverview', path: '/admin/cityProxyOverview', component: CityProxyOverview, meta: { name: '市级代理概况', type: 'admin' }}, 
   {name: 'adminVipCardSales', path: '/admin/vipCardSales', component: VipCardSales, meta: { name: '会员卡销售', type: 'admin' }}, 
