@@ -35,6 +35,7 @@ export default {
     color: #fff;
     height: 50px;
     align-items: center;
+    font-size: 14px;
     .logo {
       text-align: center;
       width: 150px;

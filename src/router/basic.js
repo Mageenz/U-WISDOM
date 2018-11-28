@@ -17,6 +17,6 @@ export default [
   {name: 'basicShareSetting', path: '/basic/shareSetting', component: ShareSetting, meta: { name: '分享/推荐设置', type: 'basic' }},
   {name: 'basicVipSetting', path: '/basic/vipSetting', component: VipSetting, meta: { name: 'vip设置', type: 'basic' }},
   {name: 'basicScoreRewardSetting', path: '/basic/scoreRewardSetting', component: ScoreRewardSetting, meta: { name: '积分奖励设置', type: 'basic' }},
-  {name: 'basicShopCategorySetting', path: '/basic/shopCategorySetting', component: ShopCategorySetting, meta: { name: '商家兑换设置', type: 'basic' }},
+  {name: 'basicShopCategorySetting', path: '/basic/shopCategorySetting', component: ShopCategorySetting, meta: { name: '商家类别设置', type: 'basic' }},
   {name: 'basicShopExchangeSetting', path: '/basic/shopExchangeSetting', component: ShopExchangeSetting, meta: { name: '商家兑换设置', type: 'basic' }},
 ]

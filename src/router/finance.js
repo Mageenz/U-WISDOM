@@ -10,5 +10,5 @@ export default [
   {name: 'financeExtractMoneyLogs', path: '/finance/extractMoneyLogs', component: ExtractMoneyLogs, meta: { name: '提现记录', type: 'finance' }}, 
   {name: 'financeWechatReceiveMoneyLogs', path: '/finance/wechatReceiveMoneyLogs', component: WechatReceiveMoneyLogs, meta: { name: '微信收款记录', type: 'finance' }}, 
   {name: 'financeAlipayReceiveMoneyLogs', path: '/finance/alipayReceiveMoneyLogs', component: AlipayReceiveMoneyLogs, meta: { name: '支付宝收款记录', type: 'finance' }}, 
-  {name: 'financeUnionPayReceiveMoneyLogs', path: '/finance/unionPayReceiveMoneyLogs', component: UnionPayReceiveMoneyLogs, meta: { name: '银联收款记录', type: 'finance' }}, 
+  // {name: 'financeUnionPayReceiveMoneyLogs', path: '/finance/unionPayReceiveMoneyLogs', component: UnionPayReceiveMoneyLogs, meta: { name: '银联收款记录', type: 'finance' }}, 
 ]
