@@ -5,6 +5,8 @@
         span.logo U+智慧管理后台
         .menus.flex-1.flex
           router-link.menu(v-for='(item, index) in routes' :key='index' :to='item.path') {{item.meta.name}}
+        .mr15
+          el-button(type='danger' @click='loginOut') 退出
     .main-body.flex.flex-1
       sidebar
       .content.flex-1
@@ -28,6 +30,13 @@ export default {
       return routes.filter(item => item.meta.isParent)
     }
   },
+  methods: {
+    loginOut() {
+      this.$router.push({
+        name: 'login'
+      })
+    }
+  },
   components: {
     Sidebar
   }
@@ -42,25 +51,23 @@ export default {
   .topbar {
     background-color: #252a2f;
     color: #fff;
-    height: 50px;
     align-items: center;
-    font-size: 14px;
     .logo {
       text-align: center;
       width: 150px;
       font-weight: bold;
+      font-size: 14px;
     }
     
     .menus {
-      height: 50px;
-
       .menu {
         display: block;
-        height: 50px;
-        line-height: 50px;
+        height: 40px;
+        line-height: 40px;
         /* padding: 0 15px; */
         width: 120px;
         text-align: center;
+        transition: .2s;
       }
       .menu:hover {
         background-color: #131313;
@@ -69,26 +76,6 @@ export default {
     }
   }
 
-  .sidebar {
-    width: 150px;
-    height: 100%;
-    background-color: #252a2f;
-    // border-top: 1px solid hsla(0,0%,100%,.1);
-
-    .menu {
-      display: block;
-      line-height: 38px;
-      text-align: left;
-      padding-left: 20px;
-      font-size: 12px;
-    }
-
-    .menu:hover {
-      background-color: #131313;
-      color: #4ba4f5;
-    }
-  }
-  
   .content {
     background-color: #f1f1f1;
     padding: 15px 15px 0 15px;
@@ -102,7 +89,7 @@ export default {
   }
   .menu {
     color: #fff;
-    transition: .3s;
+    // transition: .3s;
   }
   .icon {
     margin-right: 10px;

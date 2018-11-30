@@ -16,8 +16,8 @@ const routes = home.concat(basic, admin, finance, system, message)
 
 const router = new VueRouter({
   routes: [
-    {path: '/', component: Layout, redirect: '/home', children: routes},
-    {path: '/login', component: Login}
+    {name: 'main', path: '/', component: Layout, redirect: '/home', children: routes},
+    {name: 'login', path: '/login', component: Login}
   ]
 })
 
