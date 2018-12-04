@@ -73,5 +73,44 @@ a:active, a:visited, a:hover {
       margin-bottom: 10px;
     }
   }
+  .page-pagination {
+    text-align: center;
+    margin-top: 30px;
+  }
 }
+.table {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+  th,td {
+    padding: 8px 10px;
+    line-height: 23px;
+    border: 1px solid #ebeef5;
+  }
+  th {
+    background: #f8fbfd;
+    text-align: left;
+    color: #909399;
+    font-weight: 700;
+  }
+  td {
+    white-space: normal;
+    word-break: break-all;
+    color: #606266;
+  } 
+}
+.table-layout-main {
+  font-size: 12px;
+  line-height: 23px;
+
+  th {
+    width: 16%;
+  }
+  td {
+    width: 34%;
+  }
+}
+  
+  
+  
 </style>

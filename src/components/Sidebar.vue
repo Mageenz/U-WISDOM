@@ -4,11 +4,10 @@
       transition-group(tag='div' @before-enter='beforeEnter' @enter='enter' @leave='leave')
         router-link.menu(:to='item.path' v-for='(item, index) in routes' :key='item.meta.name' :data-index='index')
           span.el-icon-document.icon
-          span {{item.meta.name}}
+          span {{item.name}}
 </template>
 
 <script>
-import {routes} from '../router/router'
 import Velocity from 'velocity-animate'
 
 export default {
@@ -17,11 +16,12 @@ export default {
       // routes: routes.sidebar
     }
   },
+  props: ['menus'],
   computed: {
     routes() {
       const currentType = this.$route.meta.type
-
-      return routes.filter(item => {
+      
+      return this.menus.filter(item => {
         return item.meta.type === currentType && !item.meta.isParent
       })
     }

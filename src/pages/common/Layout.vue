@@ -1,16 +1,16 @@
 <template lang="pug">
-  .main-layout.flex
+  .main-layout.flex(v-loading='isLoading' element-loading-text='初始化中' element-loading-background='#252a2f')
     .main-head
       .topbar.flex
         span.logo U+智慧管理后台
         .menus.flex-1.flex
-          router-link.menu(v-for='(item, index) in routes' :key='index' :to='item.path') {{item.meta.name}}
+          router-link.menu(v-for='(item, index) in routes' :key='index' :to='item.path') {{item.name}}
         .mr15
           el-button(type='danger' @click='loginOut') 退出
     .main-body.flex.flex-1
-      sidebar
+      sidebar(:menus='menus')
       .content.flex-1
-        .container
+        .container(v-loading='isPageLoading')
           router-view
     .main-foot
 </template>
@@ -22,12 +22,16 @@ import Sidebar from '../../components/Sidebar.vue'
 export default {
   data() {
     return {
-      
+      isLoading: true,
+      menus: []
     }
   },
   computed: {
     routes() {
-      return routes.filter(item => item.meta.isParent)
+      return this.menus.filter(item => item.meta.isParent)
+    },
+    isPageLoading() {
+      return this.$store.state.isLoading
     }
   },
   methods: {
@@ -36,6 +40,24 @@ export default {
         name: 'login'
       })
     }
+  },
+  created() {
+    this.isLoading = true
+    API.common.menu().then(res => {
+      this.isLoading = false
+      this.menus = res.data.data.map(item1 => {
+        let menu = item1
+
+        routes.forEach(item2 => {
+          if(menu.name === item2.meta.name) {
+            menu.path = item2.path
+            menu.meta = item2.meta
+          }
+        })
+
+        return menu
+      })
+    })
   },
   components: {
     Sidebar
@@ -52,6 +74,7 @@ export default {
     background-color: #252a2f;
     color: #fff;
     align-items: center;
+    height: 40px;
     .logo {
       text-align: center;
       width: 150px;

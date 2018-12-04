@@ -21,14 +21,15 @@ module.exports = {
         '@': resolve('src'),
       }
     }
-  }
+  },
   // baseUrl: process.env.NODE_ENV === 'production' ? '/adminadmin/' : '/',
-  // devServer: {
-  //   proxy: {
-  //     '/manage': {
-  //       target: 'http://99.69gu.com',
-  //       changeOrigin: true
-  //     }
-  //   }
-  // }
+  devServer: {
+    proxy: {
+      '/dev': {
+        target: 'http://liuq.ngrok.xiaomiqiu.cn/',
+        changeOrigin: true,
+        pathRewrite: {'^/dev' : ''}
+      }
+    }
+  }
 }

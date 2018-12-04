@@ -12,5 +12,5 @@ export default [
   {name: 'systemSystemLogs', path: '/system/systemLogs', component: SystemLogs, meta: { name: '系统日志', type: 'system' }}, 
   {name: 'systemBannerManager', path: '/system/bannerManager', component: BannerManager, meta: { name: '广告轮播图', type: 'system' }}, 
   {name: 'systemFrontModuleControl', path: '/system/frontModuleControl', component: FrontModuleControl, meta: { name: '前端模块控制', type: 'system' }}, 
-  {name: 'systemAppUpdateManager', path: '/system/appUpdateManager', component: AppUpdateManager, meta: { name: 'APP升级管理', type: 'system' }}, 
+  {name: 'systemAppUpdateManager', path: '/system/appUpdateManager', component: AppUpdateManager, meta: { name: 'app升级管理', type: 'system' }}, 
 ]
