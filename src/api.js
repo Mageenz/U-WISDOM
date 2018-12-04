@@ -76,7 +76,7 @@ window.API = {
   basic: {
     cityOverview: '/',
     getBusinessDetail: params => instanceQuiet.get(`/business/admin/${params.id}`),
-    changeBusinessStatus: params => instance.put(`/business/admin/${params.id}/status`),
+    changeBusinessStatus: data => instance.put(`/business/admin/${data.id}/status`, data),
     getBusinessList: params => instance.get('/business/admin/page', {params})
   }
 }

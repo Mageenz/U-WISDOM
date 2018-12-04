@@ -29,7 +29,9 @@
           el-table-column(label='操作')
             template(slot-scope='{row}')
               el-button(type='text' @click='viewDetail(row.id)') 详情
-              el-button(type='text' @click='changeStatus(row.id)') 下架
+              el-button(type='text' @click='changeStatus(row.id, 0)' v-if='row.status > 0') 下架
+              el-button(type='text' @click='changeStatus(row.id, 2)' v-if='row.status == 0') 上架
+              //- 商家状态：-1 未激活 0-已下架；1-休息中，2-正常
       .page-pagination       
         el-pagination(background :total='total' :page-size='size' :current-page='current' @current-change='changePage' layout='prev, pager, next, total, jumper')
     el-dialog(:visible.sync='isDialogShow' title='商家详情' width='60%')
@@ -100,8 +102,14 @@ export default {
   },
   mixins: [mixin],
   methods: {
-    changeStatus(id) {
-      API.basic.changeBusinessStatus({id})
+    changeStatus(id, status) {
+      API.basic.changeBusinessStatus({
+        status,
+        id
+      }).then(res => {
+        this.$message.success('操作成功')
+        this.getTableList()
+      })
     },
     viewDetail(id) {
       this.isDialogShow = true
