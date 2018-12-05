@@ -74,9 +74,22 @@ window.API = {
     home: '/'
   },
   basic: {
-    cityOverview: '/',
+    cityOverview: params => instance.get('/areas/admin/page', {params}),
     getBusinessDetail: params => instanceQuiet.get(`/business/admin/${params.id}`),
     changeBusinessStatus: data => instance.put(`/business/admin/${data.id}/status`, data),
-    getBusinessList: params => instance.get('/business/admin/page', {params})
+    getBusinessList: params => instance.get('/business/admin/page', {params}),
+    getCategoryList: params => instance.get('/category/admin', {params}),
+    addCategory: data => instanceQuiet.post('/category/admin', data),
+    editCategory: data => instanceQuiet.put(`/category/admin/${data.id}`, data),
+    deleteCategory: data => instance.delete(`/category/admin/${data.id}`)
+  },
+  system: {
+    getEditorList: params => instance.get('/users/admin', {params}),
+    addEditor: data => instanceQuiet.post('/users/admin', data),
+    deleteEditor: data => instance.delete(`/users/admin/${data.id}`)
+  },
+  message: {
+    getMessageList: params => instance.get('/messages/admin', {params}),
+    sendMessage: data => instance.post('/messages/admin', data)
   }
 }

@@ -200,8 +200,6 @@ export default {
         endTime: this.date ? this.date[1] : undefined,
       })
     }
-  },
-  mounted() {
   }
 }
 </script>

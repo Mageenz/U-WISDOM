@@ -62,10 +62,13 @@ a:active, a:visited, a:hover {
 }
 .page {
   .page-searchbar {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
   }
   .page-operatebar {
     margin-bottom: 15px;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 3px;
   }
   .page-content {
     margin-bottom: 40px;
