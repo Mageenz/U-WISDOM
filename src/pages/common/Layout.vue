@@ -36,16 +36,21 @@ export default {
   },
   methods: {
     loginOut() {
-      this.$router.push({
-        name: 'login'
+      API.common.logout().then(res => {
+        if(res.data.code === '0') {
+          this.$router.push({
+            name: 'login'
+          })
+        }
       })
     }
   },
   created() {
     this.isLoading = true
-    API.common.menu().then(res => {
+    API.common.getUserInfo().then(res => {
       this.isLoading = false
-      this.menus = res.data.data.map(item1 => {
+      
+      this.menus = res.data.data.menus.map(item1 => {
         let menu = item1
 
         routes.forEach(item2 => {
@@ -57,6 +62,8 @@ export default {
 
         return menu
       })
+
+      this.$store.commit('updateUserMenus', this.menus)
     })
   },
   components: {

@@ -11,7 +11,7 @@
           el-table-column(label='手机号码' prop='telephone')
           el-table-column(label='操作' width='100')
             template(slot-scope='{row}')
-              el-button(type='text') 编辑
+              el-button(type='text' @click='editEditor(row)') 编辑
               el-button(type='text' @click='deleteEditor(row.id)') 删除
     .c3 系统登陆时，以手机号码做为登陆帐号，新增成功时，发送一条短信，告知密码，列表新增一列，初始密码，有权限的人员可以随时修改
     el-dialog(:visible.sync='isDialogShow' title='添加操作员' width='30%')
@@ -46,6 +46,10 @@ export default {
     }
   },
   methods: {
+    editEditor(row) {
+      this.form = JSON.parse(JSON.stringify(row))
+      this.isDialogShow = true
+    },
     deleteEditor(id) {
       API.system.deleteEditor({id}).then(res => {
         this.$message.success('操作成功')
@@ -56,7 +60,13 @@ export default {
       const data = {...this.form, password: md5(this.form.password)}
 
       if(data.id) {
-        
+        API.system.editEditor(data).then(res => {
+          if(res.data.code === '0') {
+            this.$message.success('操作成功')
+            this.isDialogShow = false
+            this.getList()
+          }
+        })
       } else {
         API.system.addEditor(data).then(res => {
           if(res.data.code === '0') {

@@ -54,6 +54,7 @@ export default {
   width: 150px;
   height: 100%;
   background-color: #252a2f;
+  flex-shrink: 0;
   // border-top: 1px solid hsla(0,0%,100%,.1);
 
   .menu {
