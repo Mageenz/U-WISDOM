@@ -5,14 +5,14 @@ function resolve (dir) {
 }
 
 module.exports = {
-  chainWebpack: config => {
-    config.module
-      .rule('pug')
-      .test(/\.pug$/)
-      .use('pug-plain-loader')
-        .loader('pug-plain-loader')
-        .end()
-  },
+  // chainWebpack: config => {
+  //   config.module
+  //     .rule('pug')
+  //     .test(/\.pug$/)
+  //     .use('pug-plain-loader')
+  //       .loader('pug-plain-loader')
+  //       .end()
+  // },
   configureWebpack: {
     resolve: {
       extensions: ['.js', '.vue', '.json'],
@@ -26,7 +26,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/dev': {
-        target: 'http://liuq.ngrok.xiaomiqiu.cn/',
+        target: 'http://118.31.62.10/',
         changeOrigin: true,
         pathRewrite: {'^/dev' : ''}
       }

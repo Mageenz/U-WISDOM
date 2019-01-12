@@ -28,7 +28,10 @@ export default {
   },
   computed: {
     routes() {
-      return this.menus.filter(item => item.meta.isParent)
+      return this.menus.filter(item => {
+        // console.log('item', item, item.meta)
+        return item.meta.isParent
+      })
     },
     isPageLoading() {
       return this.$store.state.isLoading

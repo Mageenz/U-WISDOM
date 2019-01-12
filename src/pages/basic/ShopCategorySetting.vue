@@ -18,16 +18,23 @@
             template(slot-scope='{row}')
               span(v-if='row.catClass == 1') 一级分类
               span(v-if='row.catClass == 2') 二级分类
-          el-table-column(label='图标' prop='wapBannerUrl')
+          el-table-column(label='图标' prop='wapBannerUrl' width='120')
+            template(slot-scope='{row}')
+              img(:src='row.wapBannerUrl' width='60' style='border-radius:50%') 
           el-table-column(label='排序' prop='showIndex')
           el-table-column(label='操作')
             template(slot-scope='{row}')
               el-button(type='text' @click='editCategory(row)') 编辑
               el-button(type='text' @click='deleteCategory(row.id)') 删除
-    el-dialog(:visible.sync='isDialogShow' title='新增分类' width='30%')
+    el-dialog(:visible.sync='isDialogShow' title='新增分类' width='30%' @close='close')
       el-form(label-position='top')
         el-form-item(label='菜单名称：')
           el-input(placeholder='请输入菜单名称' v-model='form.name' clearable)
+        el-form-item(label='分类图标：')
+          el-upload(action='/dev/file/upload' list-type='picture-card' :file-list='fileList' :limit='1' :on-success='handleUploadSuccess')
+            <i class="el-icon-plus"></i>
+            .c3(slot='tip') 只能上传jpg/png文件，且不超过500kb
+            //- el-button(type='primary' icon='el-icon-upload') 上传图标
         el-form-item(label='排序')
           el-input(placeholder='请输入排序' v-model='form.showIndex' clearable)
         el-form-item(label='前置说明：')
@@ -45,7 +52,7 @@
             el-option(value='0' label='无')
             el-option(:value='item.id' :label='item.name' v-for='item in categorys')
       .foot(slot='footer')   
-        el-button(type='primary' @click='addCategory') 提交
+        el-button(type='primary' @click='addCategory' :loading='diabled') 提交
         el-button(@click='isDialogShow=false') 取消
 </template>
 
@@ -53,6 +60,8 @@
 export default {
   data() {
     return {
+      diabled: false,
+      fileList: [],
       records: [],
       searchForm: {
         catClass: ''
@@ -65,7 +74,7 @@ export default {
         catClass: 1,
         showIndex: 1,
         state: 1,
-        wapBannerUrl: 'xxx',
+        wapBannerUrl: '',
         parentId: '0'
       },
       categorys: [],
@@ -76,8 +85,29 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.form = {
+        name: '',
+        frontDesc: '',
+        frontName: '',
+        catClass: 1,
+        showIndex: 1,
+        state: 1,
+        wapBannerUrl: '',
+        parentId: '0'
+      }
+      this.fileList = []
+    },
+    handleUploadSuccess(res) {
+      this.form.wapBannerUrl = res.data
+    },
     editCategory(row) {
-      this.form = row
+      this.form = JSON.parse(JSON.stringify(row))
+
+      this.fileList = [{
+        name: row.name,
+        url: row.wapBannerUrl
+      }]
       this.isDialogShow = true
     },
     deleteCategory(id) {
@@ -86,12 +116,14 @@ export default {
       })
     },
     addCategory() {
+      this.diabled = true
       if(this.form.id) {
         API.basic.editCategory(this.form).then(res => {
           if(res.data.code === '0') {
             this.$message.success('操作成功')
             this.isDialogShow = false
             this.getCategory()
+            this.diabled = false
           }
         })
       } else {
@@ -100,6 +132,7 @@ export default {
             this.$message.success('操作成功')
             this.isDialogShow = false
             this.getCategory()
+            this.diabled = false
           }
         })
       }

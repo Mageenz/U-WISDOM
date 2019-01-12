@@ -7,7 +7,7 @@
         el-form-item(label='密码：')
           el-input(placeholder='请输入密码' type='password' v-model='form.password' autocomplete='off')
         el-form-item
-          el-button(type='primary' @click='login') 登录
+          el-button(type='primary' @click='login' :loading='isLoading') 登录
 </template>
 
 <script>
@@ -16,6 +16,7 @@ const md5 = require('js-md5');
 export default {
   data() {
     return {
+      isLoading: false,
       isDialogShow: true,
       form: {
         clientType: 'pc',
@@ -26,11 +27,13 @@ export default {
   },
   methods: {
     login() {
+      this.isLoading = true
       API.common.login({...this.form, password: md5(this.form.password)}).then(res => {
         if(res.data.code === '0') {
           this.$router.push({
             name: 'main'
           })
+          this.isLoading = false
         }
       })
     }

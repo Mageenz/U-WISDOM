@@ -22,7 +22,7 @@ export default {
       const currentType = this.$route.meta.type
       
       return this.menus.filter(item => {
-        return item.meta.type === currentType && !item.meta.isParent
+        return item.meta.type === currentType && !item.meta.isParent && item.name !== '微信收款记录' && item.name !== '支付宝收款记录'
       })
     }
   },

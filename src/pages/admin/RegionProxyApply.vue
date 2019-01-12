@@ -2,29 +2,45 @@
   .page
     .page-content
       .page-table
-        el-table(border stripe)
+        el-table(border stripe :data='records')
           el-table-column(type='index')
-          el-table-column(label='序号')
-          el-table-column(label='申请时间')
-          el-table-column(label='申请人姓名')
-          el-table-column(label='ID')
-          el-table-column(label='手机号码')
-          el-table-column(label='身份证号码')
-          el-table-column(label='申请区域')
-          el-table-column(label='申请理由')
-          el-table-column(label='累计消费额')
-          el-table-column(label='操作')
+          el-table-column(label='申请时间' prop='')
+          el-table-column(label='申请人姓名' prop='name')
+          el-table-column(label='ID' prop='memberId')
+          el-table-column(label='操作' width='100')
+            template(slot-scope='{row}')
+              el-button(type='text' @click='checkApplication(row.id, 2)' v-if='row.status !== 2') 同意
+              el-button(type='text' @click='checkApplication(row.id, 1)' v-if='row.status !== 1') 驳回
 </template>
 
 <script>
 export default {
   data() {
     return {
-      form: {
-        keyword: '',
-        status: ''
-      }
+      records: []
     }
+  },
+  methods: {
+    checkApplication(id, status) {
+      API.admin.checkApplication({
+        id,
+        status
+      }).then(res => {
+        if(res.data.code === '0') {
+          this.getApplications()
+        }
+      })
+    },
+    getApplications() {
+      API.admin.getApplications({
+        type: 1
+      }).then(res => {
+        this.records = res.data.data
+      })
+    }
+  },
+  mounted() {
+    this.getApplications()
   }
 }
 </script>

@@ -3,7 +3,10 @@ import {parseTime} from './utils'
 import area from './assets/common/areas'
 
 Vue.filter('parseTime', v => {
-  return parseTime(v, '{y}-{m}-{d}')
+  if(!v) {
+    return ''
+  }
+  return parseTime(v, '{y}-{m}-{d} {h}:{i}:{s}')
 })
 
 Vue.filter('parseArea', (provinceCode, cityCode, areaCode) => {

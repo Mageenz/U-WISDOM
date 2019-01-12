@@ -18,15 +18,12 @@
           el-table-column(label='实名' prop='realName')
           el-table-column(label='性别' prop='sex')
           el-table-column(label='推荐人ID' prop='referrerId')
-          el-table-column(label='更多' width='280')
+          el-table-column(label='操作' width='280')
             template(slot-scope='{row}')
-              el-button(type='text') 推荐关系
+              el-button(type='text' @click='getMemberFan(row.id)') 推荐关系
               el-button(type='text' @click='getPaymentLogs(row.id)') 支付记录
               el-button(type='text' @click='getScoreLogs(row.id)') 积分明细
               el-button(type='text' @click='getCouponsLogs(row.id)') 优惠金明细
-          el-table-column(label='操作' width='60')
-            template(slot-scope='scope')
-              el-button(type='text') 编辑
       .page-pagination       
         el-pagination(background :total='total' :page-size='size' :current-page='current' @current-change='changePage' layout='prev, pager, next, total, jumper')
     .p-dialogs
@@ -90,6 +87,12 @@ export default {
   },
   mixins: [mixin],
   methods: {
+    getMemberFan(memberId) {
+      this.isDialogShow1 = true
+      API.basic.getMemberFan({memberId}).then(res => {
+        
+      })
+    },
     getScoreLogs(memberId) {
       this.dialog.isDialogShow3 = true
       API.basic.getScoreLogs({memberId, current: 1, size: 1000}).then(res => {

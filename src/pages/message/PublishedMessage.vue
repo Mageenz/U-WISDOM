@@ -9,12 +9,12 @@
               //- span {{row.date | parseTime}}
           el-table-column(label='发布对象' prop='type')
             template(slot-scope='{row}')
-              span(v-if='row.type.indexOf(1) > -1') 所有用户,
-              span(v-if='row.type.indexOf(2) > -1') 会员,
-              span(v-if='row.type.indexOf(3) > -1') VIP,
-              span(v-if='row.type.indexOf(4) > -1') 区县代理,
-              span(v-if='row.type.indexOf(5) > -1') 市级代理,
-              span(v-if='row.type.indexOf(6) > -1') 商家
+              span(v-if='row.type.toString().indexOf(1) > -1') 所有用户,
+              span(v-if='row.type.toString().indexOf(2) > -1') 会员,
+              span(v-if='row.type.toString().indexOf(3) > -1') VIP,
+              span(v-if='row.type.toString().indexOf(4) > -1') 区县代理,
+              span(v-if='row.type.toString().indexOf(5) > -1') 市级代理,
+              span(v-if='row.type.toString().indexOf(6) > -1') 商家
           el-table-column(label='发布区域' width='160')
             template(slot-scope='{row}')
               span {{row.provId | parseAreaSpec(row.cityId, row.areaId)}}

@@ -31,6 +31,8 @@
               el-button(type='text' @click='viewDetail(row.id)') 详情
               el-button(type='text' @click='changeStatus(row.id, 0)' v-if='row.status > 0') 下架
               el-button(type='text' @click='changeStatus(row.id, 2)' v-if='row.status == 0') 上架
+              el-button(type='text' @click='check(row.id, 2)' v-if='row.status == 0 || row.status == 4') 审核通过
+              el-button(type='text' @click='check(row.id, 1)' v-if='row.status == 0 || row.status == 4') 审核不通过
               //- 商家状态：-1 未激活 0-已下架；1-休息中，2-正常
       .page-pagination       
         el-pagination(background :total='total' :page-size='size' :current-page='current' @current-change='changePage' layout='prev, pager, next, total, jumper')
@@ -102,6 +104,16 @@ export default {
   },
   mixins: [mixin],
   methods: {
+    check(businessId, status) {
+      API.basic.checkShop({
+        businessId,
+        status
+      }).then(res => {
+        if(res.data.code === '0') {
+          this.$message.success('审核成功')
+        }
+      })
+    },
     changeStatus(id, status) {
       API.basic.changeBusinessStatus({
         status,
