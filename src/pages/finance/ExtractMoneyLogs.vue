@@ -16,6 +16,7 @@
           el-table-column(label='付款ID' prop='businessId')
           el-table-column(label='名称' prop='name')
           el-table-column(label='提现金额' prop='actualAmount')
+            template(slot-scope='{row}') {{row.actualAmount/100}}
           el-table-column(label='提现通道' prop='type')
           el-table-column(label='账户信息' prop='withdrawAccount')
       .page-pagination       

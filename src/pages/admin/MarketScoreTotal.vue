@@ -10,7 +10,9 @@
           el-table-column(label='会员ID' prop='memberId')
           el-table-column(label='会员名称' prop='name')
           el-table-column(label='发生数额' prop='changedValue')
+            template(slot-scope='{row}') {{row.changedValue/100}}
           el-table-column(label='实时余额' prop='balance')
+            template(slot-scope='{row}') {{row.balance}}
       .page-pagination       
         el-pagination(background :total='total' :page-size='size' :current-page='current' @current-change='changePage' layout='prev, pager, next, total, jumper')
 </template>

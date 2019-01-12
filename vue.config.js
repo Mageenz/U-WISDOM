@@ -26,7 +26,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/dev': {
-        target: 'http://118.31.62.10/',
+        target: 'http://www.lianduhz.cn/',
         changeOrigin: true,
         pathRewrite: {'^/dev' : ''}
       }

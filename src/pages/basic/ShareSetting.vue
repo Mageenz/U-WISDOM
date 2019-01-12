@@ -26,7 +26,12 @@ export default {
   },
   methods: {
     submit() {
-      API.basic.editShareInfo(this.form).then(res => {
+      const data = {
+        ...this.form,
+        registerCoupons: this.form.registerCoupons*100,
+        inviteCoupons: this.form.inviteCoupons*100
+      }
+      API.basic.editShareInfo(data).then(res => {
         if(res.data.code === '0') {
           this.$message.success('操作成功')
         }
@@ -36,7 +41,11 @@ export default {
   mounted() {
     API.basic.getShareInfo().then(res => {
       if(res.data.code === '0') {
-        this.form = res.data.data
+        this.form = {
+          ...res.data.data,
+          registerCoupons: res.data.data.registerCoupons/100,
+          inviteCoupons: res.data.data.inviteCoupons/100,
+        }
       }
     })
   }

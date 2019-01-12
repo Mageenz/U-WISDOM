@@ -5,9 +5,12 @@
         el-table(border stripe :data='records')
           el-table-column(type='index')
           el-table-column(label='VIP级别名称' prop='name')
-          el-table-column(label='累计消费金额达' prop='consumption')
-          el-table-column(label='直推奖比例' prop='straightRatio')
-          el-table-column(label='团队奖比例' prop='teamRatio')
+          el-table-column(label='累计消费金额达（元）' prop='consumption')
+            template(slot-scope='{row}') {{row.consumption/100}}
+          el-table-column(label='直推奖比例（%）' prop='straightRatio')
+            template(slot-scope='{row}') {{row.straightRatio/100}}
+          el-table-column(label='团队奖比例（%）' prop='teamRatio')
+            template(slot-scope='{row}') {{row.teamRatio/100}}
           el-table-column(label='操作')
             template(slot-scope='{row}')
               el-button(type='text' @click='edit(row)') 编辑
@@ -18,9 +21,9 @@
             el-input(placeholder='累计消费' v-model='form.consumption' clearable)
           el-form-item(label='VIP级别名称：')
             el-input(placeholder='VIP级别名称' v-model='form.name' clearable)
-          el-form-item(label='直推奖比例')
+          el-form-item(label='直推奖比例（%）：')
             el-input(placeholder='直推奖比例：' v-model='form.straightRatio' clearable)
-          el-form-item(label='团队奖比例：')
+          el-form-item(label='团队奖比例（%）：')
             el-input(placeholder='团队奖比例' v-model='form.teamRatio' clearable)
         .p-foot(slot='footer')
           el-button(type='primary' @click='submit') 提交
@@ -43,7 +46,13 @@ export default {
   },
   methods: {
     submit() {
-      API.basic.editVipSetting(this.form).then(res => {
+      const data = {
+        ...this.form,
+        consumption: this.form.consumption*100,
+        straightRatio: this.form.straightRatio*100,
+        teamRatio: this.form.teamRatio*100
+      }
+      API.basic.editVipSetting(data).then(res => {
         if(res.data.code === '0') {
           this.$message.success('操作成功')
           this.isDialogShow = false
@@ -55,7 +64,12 @@ export default {
     },
     edit(row) {
       this.isDialogShow = true
-      this.form = JSON.parse(JSON.stringify(row))
+      this.form = {
+        ...row,
+        consumption: row.consumption/100,
+        straightRatio: row.straightRatio/100,
+        teamRatio: row.teamRatio/100
+      }
     }
   },
   mounted() {

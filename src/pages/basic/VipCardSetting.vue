@@ -1,15 +1,18 @@
 <template lang="pug">
   .page
     .page-operatebar
-      el-button(type='primary' icon='el-icon-plus' @click='isDialogShow=true') 新增
+      el-button(type='primary' icon='el-icon-plus' @click='add') 新增
     .page-content
       .page-table
         el-table(border stripe :data='records')
           el-table-column(type='index')
           el-table-column(label='会员卡名称' prop='name')
-          el-table-column(label='面值' prop='price')
-          el-table-column(label='优惠金金额' prop='coupons')
-          el-table-column(label='积分额' prop='points')
+          el-table-column(label='面值')
+            template(slot-scope='{row}') {{row.price/100}}
+          el-table-column(label='优惠金金额')
+            template(slot-scope='{row}') {{row.coupons/100}}
+          el-table-column(label='积分额')
+            template(slot-scope='{row}') {{row.points/100}}
           el-table-column(label='操作')
             template(slot-scope='{row}')
               el-button(type='text' @click='editVipCard(row)') 编辑
@@ -47,8 +50,26 @@ export default {
     }
   },
   methods: {
+    add() {
+      this.form = {
+        code: '',
+        name: '',
+        coupons: '',
+        points: '',
+        price: ''
+      }
+      this.isDialogShow = true
+    },
     editVipCard(row) {
-      this.form = JSON.parse(JSON.stringify(row))
+      // this.form = JSON.parse(JSON.stringify(row))
+      this.form = {
+        id: row.id,
+        code: row.code,
+        name: row.name,
+        coupons: row.coupons/100,
+        points: row.points/100,
+        price: row.price/100
+      }
       this.isDialogShow = true
     },
     deleteVipCard(id) {
@@ -67,8 +88,16 @@ export default {
       })
     },
     submit() {
-      if(this.form.id) {
-        API.basic.editVipCard(this.form).then(res => {
+      const data = {
+        id: this.form.id,
+        code: this.form.code,
+        name: this.form.name,
+        coupons: this.form.coupons*100,
+        points: this.form.points*100,
+        price: this.form.price*100
+      }
+      if(data.id) {
+        API.basic.editVipCard(data).then(res => {
           if(res.data.code === '0') {
             this.$message.success('操作成功')
             this.isDialogShow = false
@@ -76,7 +105,7 @@ export default {
           }
         })
       } else {
-        API.basic.addVipCard(this.form).then(res => {
+        API.basic.addVipCard(data).then(res => {
           if(res.data.code === '0') {
             this.$message.success('操作成功')
             this.isDialogShow = false
