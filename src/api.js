@@ -101,7 +101,7 @@ window.API = {
     getMemberFan: params => instanceQuiet.get('/memberFans/admin', {params}),
     couponsSettings: params => instance.get('/couponsSettings/admin', {params}),
     submitCouponsSettings: data => instance.put(`/couponsSettings/admin/${data.id}`, data),
-    
+    getFans: params => instance.get('/memberFans/admin', {params}),
   },
   system: {
     getEditorList: params => instance.get('/users/admin', {params}),

@@ -29,6 +29,33 @@
     .p-dialogs
       .p-dialog1
         el-dialog(:visible.sync='dialog.isDialogShow1' title='推荐关系')
+          div(v-if='fansData')
+            div(v-if='fansData.four')
+              span(class='m-r30') 上4级
+              span(class='m-r30') ID：{{fansData.four.id}}
+              span(class='m-r30') 姓名：{{fansData.four.realName}}
+            div(v-if='fansData.three')
+              span(class='m-r30') 上3级
+              span(class='m-r30') ID：{{fansData.three.id}}
+              span(class='m-r30') 姓名：{{fansData.three.realName}}
+            div(v-if='fansData.two')
+              span(class='m-r30') 上2级
+              span(class='m-r30') ID：{{fansData.two.id}}
+              span(class='m-r30') 姓名：{{fansData.two.realName}}
+            div(v-if='fansData.one')
+              span(class='m-r30') 上1级
+              span(class='m-r30') ID：{{fansData.one.id}}
+              span(class='m-r30') 姓名：{{fansData.one.realName}}
+            div(v-if='fansData.own')
+              span(class='m-r30') 本人
+              span(class='m-r30') ID：{{fansData.own.id}}
+              span(class='m-r30') 姓名：{{fansData.own.realName}}
+            el-tree(:data='fansData.fans' :props='fansProps')
+              div(slot-scope='{node, data}')
+                span(class='m-r30') 下{{data.level}}级
+                span(class='m-r30') ID：{{data.id}}
+                span 姓名：{{data.realName}}
+                //- span(@click='getNode(node)') node
       .p-dialog2
         el-dialog(:visible.sync='dialog.isDialogShow2' title='支付记录' :data='records2')
           el-table(border stripe)
@@ -82,15 +109,24 @@ export default {
         isDialogShow2: false,
         isDialogShow3: false,
         isDialogShow4: false
+      },
+      fansData: null,
+      fansProps: {
+        label: 'nickName',
+        children: 'children'
       }
     }
   },
   mixins: [mixin],
   methods: {
+    getNode(node) {
+      console.log('node', node)
+    },
     getMemberFan(memberId) {
-      this.isDialogShow1 = true
+      this.fansData = null
+      this.dialog.isDialogShow1 = true
       API.basic.getMemberFan({memberId}).then(res => {
-        
+        this.fansData = res.data.data
       })
     },
     getScoreLogs(memberId) {
@@ -131,9 +167,17 @@ export default {
       })
     },
     search() {
-
+      this.changeSearch({
+        params: this.searchForm.params
+      })
+      // this.getTableList()
     }
   }
 }
 </script>
 
+<style lang="less" scoped>
+.m-r30 {
+  margin-right: 30px;
+}
+</style>

@@ -20,7 +20,8 @@
           el-table-column(label='省-市-区')
             template(slot-scope='{row}')
               //- span {{row.provId | parseArea(row.cityId, row.areaId)}}
-              span {{"110000" | parseArea("110100", "110101")}}
+              span {{row.provName}} - {{row.cityName}} - {{row.areaName}}
+              //- span {{"110000" | parseArea("110100", "110101")}}
           el-table-column(label='商家名称' prop='name')
           el-table-column(label='商家ID' prop='id')
           el-table-column(label='推荐人名称' prop='referrerName')
@@ -29,14 +30,14 @@
           el-table-column(label='操作')
             template(slot-scope='{row}')
               el-button(type='text' @click='viewDetail(row.id)') 详情
-              el-button(type='text' @click='changeStatus(row.id, 0)' v-if='row.status > 0') 下架
-              el-button(type='text' @click='changeStatus(row.id, 2)' v-if='row.status == 0') 上架
+              el-button(type='text' @click='changeStatus(row.id, 0)' v-if='row.status == 5') 下架
+              el-button(type='text' @click='changeStatus(row.id, 2)' v-if='row.status == 6') 上架
               el-button(type='text' @click='check(row.id, 2)' v-if='row.status == 0 || row.status == 4') 审核通过
               el-button(type='text' @click='check(row.id, 1)' v-if='row.status == 0 || row.status == 4') 审核不通过
               //- 商家状态：-1 未激活 0-已下架；1-休息中，2-正常
       .page-pagination       
         el-pagination(background :total='total' :page-size='size' :current-page='current' @current-change='changePage' layout='prev, pager, next, total, jumper')
-    el-dialog(:visible.sync='isDialogShow' title='商家详情' width='60%')
+    el-dialog(:visible.sync='isDialogShow' title='商家详情' width='80%')
       table.table.table-layout-main
         tr
           th 商家名称：
@@ -59,6 +60,11 @@
           th 推荐人手机号码：
           td {{detail.referrerPhone}}
         tr
+          th 优惠金兑换现金比例（%）：
+          td {{detail.couponsRatio/100}}%
+          th 经营品项：
+          td {{detail.kinds}}
+        tr
           th 营业开始时间：
           td {{detail.shopStartTime}}
           th 营业结束时间：
@@ -66,12 +72,21 @@
         tr
           th 标语：
           td {{detail.slogan}}
+          //- 商家状态：-1 未激活 0-已下架；1-休息中，2-正常
           th 商家状态：
-          td {{detail.status}}
+          td {{status[detail.status]}}
         tr
-          th 商家图片：
+          th 商家简介：
+          td {{detail1.shopDesc}}
+          th 商家详情：
+          td {{detail1.details}}
+        tr(v-for='item in pics')
+          th(v-if='item.type === 1') 店内图片：
+          th(v-if='item.type === 2') 营业执照：
+          th(v-if='item.type === 3') 其他执照：
+          th(v-if='item.type === 4') 门头照：
           td(colspan='3')
-            img(:src='detail.picUrl' width='100')
+            img(:src='pic' height='100' v-for='pic in item.url.split(",")' style='margin-right:30px')
 </template>
 
 <script>
@@ -81,6 +96,12 @@ import areas from '../../assets/common/areas'
 export default {
   data() {
     return {
+      status: {
+        0: '已下架',
+        '-1': '未激活',
+        2: '正常',
+        1: '休息中'
+      },
       records: [],
       total: 0,
       size: 10,
@@ -99,7 +120,9 @@ export default {
       },
       areas,
       isDialogShow: false,
-      detail: {}
+      detail: {},
+      pics: [],
+      detail1: {}
     }
   },
   mixins: [mixin],
@@ -111,6 +134,7 @@ export default {
       }).then(res => {
         if(res.data.code === '0') {
           this.$message.success('审核成功')
+          this.getTableList()
         }
       })
     },
@@ -127,6 +151,8 @@ export default {
       this.isDialogShow = true
       API.basic.getBusinessDetail({id}).then(res => {
         this.detail = res.data.data.business
+        this.pics = res.data.data.pictures
+        this.detail1 = res.data.data.detail
       })
     },
     getAreas() {

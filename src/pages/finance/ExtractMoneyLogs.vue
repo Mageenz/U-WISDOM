@@ -63,7 +63,7 @@ export default {
         startTime: this.date ? this.date[0] : undefined,
         endTime: this.date ? this.date[1] : undefined,
       })
-      this.getList()
+      // this.getList()
     },
     getTableList() {
       const params = this.getSearchParams()
